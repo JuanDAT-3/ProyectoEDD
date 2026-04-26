@@ -172,4 +172,29 @@ public class DoublyLinkedList<E> implements Iterable<E> {
         }while(swapped);
     }
 
+    public void insertionSort(){
+        this.insertionSort(new DefaultComparator<E>());
+    }
+
+    public void insertionSort(java.util.Comparator<E> comp){
+        if (size <= 1){ return; }
+
+        Node<E> current = header.getNext().getNext();
+
+        while(current != trailer){
+            Node<E> walk = current;
+
+            while(walk.getPrev() != header &&
+                  comp.compare(walk.getPrev().element, walk.element) > 0){
+
+                E temp = walk.element;
+                walk.element = walk.getPrev().element;
+                walk.getPrev().element = temp;
+
+                walk = walk.getPrev();
+            }
+
+            current = current.getNext();
+        }
+    }
 }
