@@ -1,4 +1,4 @@
-package EI;
+package MergeSort;
 
 import TDAs.DoublyLinkedList;
 

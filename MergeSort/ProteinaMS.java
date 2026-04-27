@@ -1,4 +1,4 @@
-package EI;
+package MergeSort;
 
 public class ProteinaMS {
     private String nombre;

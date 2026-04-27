@@ -1,4 +1,4 @@
-package EI;
+package MergeSort;
 
 public class MainMergeSortProteinas {
     public static void main(String[] args) {

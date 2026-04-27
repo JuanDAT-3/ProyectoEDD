@@ -1,4 +1,4 @@
-package EI;
+package InsertionSort;
 
 public class MainInsertionSort
 {

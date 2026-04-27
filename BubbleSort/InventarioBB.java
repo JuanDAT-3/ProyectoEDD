@@ -1,4 +1,4 @@
-package EI;
+package BubbleSort;
 
 import TDAs.DoublyLinkedList;
 

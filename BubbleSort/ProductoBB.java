@@ -1,4 +1,4 @@
-package EI;
+package BubbleSort;
 
 public class ProductoBB {
     private String nombre;
