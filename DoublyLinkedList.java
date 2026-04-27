@@ -197,4 +197,104 @@ public class DoublyLinkedList<E> implements Iterable<E> {
             current = current.getNext();
         }
     }
+
+    public void mergeSort(){
+        this.mergeSort(new DefaultComparator<E>());
+    }
+
+    public void mergeSort(java.util.Comparator<E> comp){
+        if (size <= 1) { return; }
+        if (comp == null) { comp = new DefaultComparator<E>(); }
+
+        Node<E> firstNode = header.getNext();
+        Node<E> lastNode = trailer.getPrev();
+
+        firstNode.setPrev(null);
+        lastNode.setNext(null);
+
+        Node<E> sortedHead = mergeSortNodes(firstNode, comp);
+
+        header.setNext(sortedHead);
+
+        Node<E> previous = header;
+        Node<E> current = sortedHead;
+
+        while (current != null) {
+            current.setPrev(previous);
+            previous = current;
+            current = current.getNext();
+        }
+
+        previous.setNext(trailer);
+        trailer.setPrev(previous);
+    }
+
+    private Node<E> mergeSortNodes(Node<E> head, java.util.Comparator<E> comp){
+        if (head == null || head.getNext() == null) {
+            return head;
+        }
+
+        Node<E> secondHalf = splitInHalf(head);
+
+        Node<E> left = mergeSortNodes(head, comp);
+        Node<E> right = mergeSortNodes(secondHalf, comp);
+
+        return mergeNodes(left, right, comp);
+    }
+
+    private Node<E> splitInHalf(Node<E> head){
+        Node<E> slow = head;
+        Node<E> fast = head;
+
+        while (fast.getNext() != null && fast.getNext().getNext() != null) {
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+        }
+
+        Node<E> secondHalf = slow.getNext();
+        slow.setNext(null);
+        if (secondHalf != null) {
+            secondHalf.setPrev(null);
+        }
+
+        return secondHalf;
+    }
+
+    private Node<E> mergeNodes(Node<E> left, Node<E> right, java.util.Comparator<E> comp){
+        Node<E> dummy = new Node<>(null, null, null);
+        Node<E> tail = dummy;
+
+        while (left != null && right != null) {
+            if (comp.compare(left.getElement(), right.getElement()) <= 0) {
+                Node<E> next = left.getNext();
+                tail.setNext(left);
+                left.setPrev(tail);
+                tail = left;
+                left = next;
+            } else {
+                Node<E> next = right.getNext();
+                tail.setNext(right);
+                right.setPrev(tail);
+                tail = right;
+                right = next;
+            }
+        }
+
+        Node<E> remaining = (left != null) ? left : right;
+        while (remaining != null) {
+            Node<E> next = remaining.getNext();
+            tail.setNext(remaining);
+            remaining.setPrev(tail);
+            tail = remaining;
+            remaining = next;
+        }
+
+        Node<E> mergedHead = dummy.getNext();
+        if (mergedHead != null) {
+            mergedHead.setPrev(null);
+        }
+        tail.setNext(null);
+
+        return mergedHead;
+    }
 }
